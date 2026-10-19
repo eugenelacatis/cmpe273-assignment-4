@@ -1,0 +1,33 @@
+== 1. both services running (success) ==
+$ curl -X POST localhost:8080/orders -d '{"item_id":"widget","quantity":2}'
+{"status":"created","detail":"item available","order":{"id":"ord-1","item_id":"widget","quantity":2,"status":"created"}}
+HTTP 201
+$ curl localhost:8080/orders/ord-1
+{"id":"ord-1","item_id":"widget","quantity":2,"status":"created"}
+HTTP 200
+== 2. unavailable cases ==
+$ curl -X POST localhost:8080/orders -d '{"item_id":"gadget","quantity":1}'
+{"status":"rejected","detail":"item unavailable"}
+HTTP 409
+$ curl -X POST localhost:8080/orders -d '{"item_id":"nope","quantity":1}'
+{"status":"rejected","detail":"unknown item"}
+HTTP 404
+== 3. inventory service stopped ==
+inventory service PID 11351 stopped
+$ curl -X POST localhost:8080/orders -d '{"item_id":"widget","quantity":2}'
+{"status":"error","detail":"inventory service unavailable, try again later"}
+HTTP 503
+== 4. order service still running ==
+order service PID 11352 alive
+$ curl -X POST localhost:8080/orders -d '{"item_id":"widget","quantity":0}'
+{"status":"error","detail":"item_id and positive quantity required"}
+HTTP 400
+== 5. inventory restarted, orders succeed again ==
+$ curl -X POST localhost:8080/orders -d '{"item_id":"widget","quantity":2}'
+{"status":"created","detail":"item available","order":{"id":"ord-2","item_id":"widget","quantity":2,"status":"created"}}
+HTTP 201
+== order service log ==
+2026/10/19 14:58:15 order service on :8080 -> http://localhost:8081
+2026/10/19 14:58:16 order ord-1 created: "widget" x2
+2026/10/19 14:58:16 order "widget" x2: inventory unavailable: Get "http://localhost:8081/inventory/widget?quantity=2": dial tcp [::1]:8081: connect: connection refused
+2026/10/19 14:58:17 order ord-2 created: "widget" x2

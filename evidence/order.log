@@ -1,0 +1,4 @@
+2026/10/19 14:58:15 order service on :8080 -> http://localhost:8081
+2026/10/19 14:58:16 order ord-1 created: "widget" x2
+2026/10/19 14:58:16 order "widget" x2: inventory unavailable: Get "http://localhost:8081/inventory/widget?quantity=2": dial tcp [::1]:8081: connect: connection refused
+2026/10/19 14:58:17 order ord-2 created: "widget" x2
