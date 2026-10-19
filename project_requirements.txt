@@ -1,0 +1,92 @@
+In this assignment, you will design and implement a small distributed application while focusing on architecture, service boundaries, data ownership, and communication patterns.
+
+You may use Python or Go.
+
+Consider a simple online store with these responsibilities:
+
+Order – creates and tracks orders
+
+Inventory – tracks item availability
+
+Notification – represents notifying users when an order is created
+
+ 
+
+Minimum Requirements
+1. Architecture Design
+Design a simple architecture showing how you would organize the system.
+
+Add an architecture diagram to your README showing the components and how they communicate.
+
+In the README, briefly explain:
+
+The responsibility of each component/service
+
+What data each component should own
+
+Why you chose these service boundaries
+
+2. Command, Query, and Event
+In your README, classify each interaction as a Command, Query, or Event and briefly explain why:
+
+Check whether an item is available
+
+Create an order
+
+Order was created
+
+3. Implementation
+Implement the following interaction:
+
+Order Service → Inventory Service
+When an order is submitted:
+
+Order Service asks Inventory Service whether the requested item is available.
+
+Inventory Service returns available or unavailable.
+
+Order Service returns the appropriate result.
+
+Both services must run as independent processes.
+
+You may use in-memory/sample inventory data. A database is not required.
+
+4. Failure Test
+Stop the Inventory Service and submit another order.
+
+The Order Service should:
+
+Handle the dependency failure
+
+Return an appropriate error
+
+Remain running instead of crashing
+
+Add the failure result to your README.
+
+ 
+
+Submission
+Submit your GitHub repository link.
+
+Your repository's README.md must contain:
+
+Instructions for installing dependencies and running the services
+
+Architecture diagram
+
+Explanation of each component's responsibility
+
+Data ownership for each component
+
+Explanation of your chosen service boundaries
+
+Command / Query / Event classifications
+
+Example of a successful request
+
+Proof of the Inventory Service failure test
+
+Screenshots, terminal output, or curl output showing your implementation working
+
+A 3–5 sentence reflection answering: Why are clear service boundaries and data ownership important in a distributed architecture?
